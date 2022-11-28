@@ -1,20 +1,16 @@
 import { useEffect, useState } from 'react';
-import { singletonHook } from 'react-singleton-hook';
+// import { singletonHook } from 'react-singleton-hook';
 import { io } from "socket.io-client";
 import { environment } from '../environment/environment';
 
-const socket = io(environment.socketUrl, {
-  reconnectionDelayMax: 10000,
-  auth: {
-    token: "123"
-  },
-  query: {
-    "my-key": "my-value"
-  }
+export const _socket = io(environment.socketUrl, {
+  reconnectionDelayMax: 1000,
 });
 
-const useSocket = () => {
-    const [isConnected, setIsConnected] = useState(socket.connected);
+export const useSocket = () => {
+    const [isConnected, setIsConnected] = useState(_socket.connected);
+    const [socket, setSocket] = useState(_socket);
+    // const [onQr, setOnQr] = useState(socket.on);
     const [lastPong, setLastPong] = useState<any>(null);
   
     useEffect(() => {
@@ -44,8 +40,9 @@ const useSocket = () => {
     return {
         isConnected,
         lastPong,
-        sendPing
+        sendPing,
+        socket
     }
   }
   
-  export default singletonHook(useSocket);
+  // export default singletonHook(useSocket);
