@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 // import { singletonHook } from 'react-singleton-hook';
 import { io } from "socket.io-client";
 import { environment } from '../environment/environment';
@@ -9,20 +9,21 @@ export const _socket = io(environment.socketUrl, {
 
 export const useSocket = () => {
     const [isConnected, setIsConnected] = useState(_socket.connected);
-    const [socket, setSocket] = useState(_socket);
-    // const [onQr, setOnQr] = useState(socket.on);
+    const socket = useMemo(() => _socket,[]);
     const [lastPong, setLastPong] = useState<any>(null);
-  
     useEffect(() => {
       socket.on('connect', () => {
+        console.log('connected');
         setIsConnected(true);
       });
   
       socket.on('disconnect', () => {
+        console.log('disconnected');
         setIsConnected(false);
       });
   
       socket.on('pong', () => {
+        setLastPong(new Date());
         setLastPong(new Date().toISOString());
       });
   
@@ -34,6 +35,7 @@ export const useSocket = () => {
     }, []);
   
     const sendPing = () => {
+      
       socket.emit('ping');
     }
   

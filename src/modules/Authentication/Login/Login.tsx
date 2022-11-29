@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSocket } from "../../../class/init";
 import './Login.css';
+import { redirect } from "react-router-dom";
+
 const Login = () => {
     const [imgQr, setImgQr] = useState(null);
 
@@ -9,22 +11,12 @@ const Login = () => {
       if (isConnected) {
         onQr()
       }
-      onAuthenticated()
     })
 
     function onQr() {
       socket.on('qr_code', (res: any) => {
         console.log({data: res})
         setImgQr(res.data)
-      })
-    }
-
-    function onAuthenticated() {
-      // socket.on('authenticated', (res: any) => {
-      //   setImgQr(res.data)
-      // })
-      onSocket('authenticated', (response: any) => {
-        console.log({response})
       })
     }
 
