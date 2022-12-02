@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSocket } from "../../../class/init";
+import { useSocket } from "../../../../class/init";
 import './Login.css';
 import { redirect } from "react-router-dom";
 

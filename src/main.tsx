@@ -13,10 +13,10 @@ import { ProvideAuth } from './context/AuthContext'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <BrowserRouter>
-    <React.StrictMode>
+    {/* <React.StrictMode> */}
       <ProvideAuth>
         <App />
       </ProvideAuth>
-    </React.StrictMode>
+    {/* </React.StrictMode> */}
   </BrowserRouter>
 )
